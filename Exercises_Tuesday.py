@@ -191,28 +191,28 @@ X3_train, X3_test, y3_train, y3_test = train_test_split(X3, y3,
 
 # fit a model
 model = LogisticRegression(solver='lbfgs')
-model.fit(X_train, y_train)
+model.fit(X3_train, y3_train)
 
 # generate a no skill prediction (majority class)
-ns_probs = [0 for _ in range(len(y_test))]
+ns_probs = [0 for _ in range(len(y3_test))]
 
 # predict probabilities
-lr_probs = model.predict_proba(X_test)
+lr_probs = model.predict_proba(X3_test)
 
 # keep probabilities for the positive outcome only
 lr_probs = lr_probs[:, 1]
 
 # calculate scores
-ns_auc = roc_auc_score(y_test, ns_probs)
-lr_auc = roc_auc_score(y_test, lr_probs)
+ns_auc = roc_auc_score(y3_test, ns_probs)
+lr_auc = roc_auc_score(y3_test, lr_probs)
 
 # summarize scores
 print('No Skill: ROC AUC=%.3f' % ns_auc)
 print('Logistic: ROC AUC=%.3f' % lr_auc)
 
 # calculate roc curves
-ns_fpr, ns_tpr, _ = roc_curve(y_test, ns_probs)
-lr_fpr, lr_tpr, _ = roc_curve(y_test, lr_probs)
+ns_fpr, ns_tpr, _ = roc_curve(y3_test, ns_probs)
+lr_fpr, lr_tpr, _ = roc_curve(y3_test, lr_probs)
 
 # plot the roc curve for the model
 pyplot.plot(ns_fpr, ns_tpr, linestyle='--', label='No Skill')
